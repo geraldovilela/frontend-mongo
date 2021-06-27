@@ -8,8 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body{
-    height: 100%;
-    width: 100%;
+    
     font-family: Arial, Helvetica, sans-serif;
     -webkit-font-smoothing:antialised;
     background:#f1f1f1;     
