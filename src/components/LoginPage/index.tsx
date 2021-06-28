@@ -1,19 +1,28 @@
 import { ContainerLogin, Content, Background } from './styles'
-
-import {FiLogIn, FiLock, FiMail} from 'react-icons/fi'
-import {Form} from "@unform/web"
-
-import {Button} from "../Button/index"
-import {Input} from "../Input/index"
-import { useCallback } from 'react'
-import { useRef } from 'react'
-import * as Yup from 'yup'
-import getValidationErrors from '../utils/getValidationErrors'
+import { useCallback, useRef } from 'react'
+import { Form } from "@unform/web"
 import { FormHandles } from '@unform/core'
+import * as Yup from 'yup'
 
-const LoginPage: React.FC=()=> {
+
+import { Link } from 'react-router-dom'
+import { FiLogIn, FiLock, FiMail } from 'react-icons/fi'
+import { useAuth } from '../../context/AuthContext'
+import { Button } from "../Button/index"
+import { Input } from "../Input/index"
+import getValidationErrors from '../utils/getValidationErrors'
+
+interface iSignInFormData {
+  email: string;
+  password: string;
+}
+
+
+const LoginPage: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const handleSubmit= useCallback(async(data:object) =>{
+  const { signIn } = useAuth();
+
+  const handleSubmit = useCallback(async (data: iSignInFormData) => {
     try {
       formRef.current?.setErrors({});
 
@@ -23,35 +32,38 @@ const LoginPage: React.FC=()=> {
       })
 
       await schema.validate(data,
-        { abortEarly:false }
-        );
-      
-    } catch (err){        
+        { abortEarly: false }
+      );
+      signIn({
+        email: data.email,
+        password: data.password
+      });
+    } catch (err) {
       const errors = getValidationErrors(err);
       formRef.current?.setErrors(errors)
     }
-  },[])
+  }, [signIn])
 
   return (
     <ContainerLogin>
       <Content>
-          <h1>MyProducts</h1>
+        <h1>MyProducts</h1>
 
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Faça seu logon</h1>
-            <Input name="email" icon={FiMail} placeholder="E-mail"></Input>
-            <Input name="password" icon={FiLock} type="password"placeholder="Senha"></Input>
-            <Button type="submit">Entrar</Button>
-          </Form>
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Faça seu logon</h1>
+          <Input name="email" icon={FiMail} placeholder="E-mail"></Input>
+          <Input name="password" icon={FiLock} type="password" placeholder="Senha"></Input>
+          <Button type="submit">Entrar</Button>
+        </Form>
 
-          <a href="/register">
-            <FiLogIn/>
-            Criar Conta
-          </a>
+        <Link to="/register">
+          <FiLogIn />
+          Criar Conta
+        </Link>
       </Content>
-      <Background/>
+      <Background />
     </ContainerLogin>
   )
 }
 
-export {LoginPage};
+export { LoginPage };

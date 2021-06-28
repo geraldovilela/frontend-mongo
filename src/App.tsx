@@ -1,16 +1,19 @@
-import React from 'react';
-import { Header } from './components/Header';
-import { LoginPage } from './components/LoginPage';
 import { GlobalStyle } from './styles/global';
-import {RegisterPage} from './components/RegisterPage';
+import { AuthProvider } from "./context/AuthContext";
+import { BrowserRouter as Router } from "react-router-dom"
 
+import { Routes } from "./routes";
 
 function App() {
+
   return (
-    <>
-      <LoginPage></LoginPage>
-      <GlobalStyle/>
-    </>
+    <Router>
+      <AuthProvider>
+        <Routes/>
+      </AuthProvider>
+
+      <GlobalStyle />
+    </Router>
   );
 }
 
