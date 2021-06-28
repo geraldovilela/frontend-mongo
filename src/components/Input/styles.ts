@@ -16,6 +16,7 @@ export const Container = styled.div<IContainerProps>`
     display: flex;
     align-items: center;
     
+    
     border: 2px solid #232129;
 
     & + div {
@@ -39,6 +40,7 @@ export const Container = styled.div<IContainerProps>`
       border: 0;
       background: transparent;
       color:#f4ede8;
+      outline: none;
 
       &::placeholder{
         color:#ffffff;
